@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { createTheme, ThemeProvider, Container, Typography, Card, Grid, Slider, TextField, Box, CssBaseline } from '@mui/material';
 
-
 function App() {
   const [grades, setGrades] = useState({
     'Midterm Exam': { weight: 25, grade: 65 },
@@ -12,11 +11,12 @@ function App() {
     'Second-step of Project': { weight: 15, grade: 50 },
     'Final Exam': { weight: 30, grade: 50 },
   });
+
   const darkTheme = createTheme({
     palette: {
-      background : {
-        default : '#121212',
-        paper:'#1e1e1e'
+      background: {
+        default: '#121212',
+        paper: '#1e1e1e'
       },
       mode: 'dark',
       primary: {
@@ -27,24 +27,16 @@ function App() {
       }
     },
   });
+
   const handleGradeChange = (assessment, value) => {
     const numericValue = parseInt(value, 10);
-  
-    // Girilen değer 0-100 arasında değilse güncelleme yapma
     if (numericValue < 0 || numericValue > 100) return;
-  
     setGrades(prevGrades => ({
       ...prevGrades,
       [assessment]: { ...prevGrades[assessment], grade: numericValue }
     }));
   };
-  const handleGradeInput = (e) => {
-    let value = e.target.value;
-    if (value.startsWith('0')) {
-      value = value.slice(1);
-    }
-    return value;
-  };
+
   const handleSliderChange = (assessment, value) => {
     setGrades(prevGrades => ({
       ...prevGrades,
@@ -75,15 +67,15 @@ function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <Container maxWidth="lg" sx={{ height: '100vh', bgcolor: 'background.default', overflow: 'auto' }}>
-        <Box sx={{ py: 3, display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%' }}>
+      <Container maxWidth="lg" sx={{ bgcolor: 'background.default', padding: 2, overflow: 'auto', height: 'auto', minHeight: '100vh' }}>
+        <Box sx={{ py: 3 }}>
           <Typography variant="h4" gutterBottom align="center" color="primary">
             Grade Calculator
           </Typography>
           <Card sx={{ bgcolor: 'background.paper', p: 3, my: 2 }}>
             <Grid container spacing={2} justifyContent="center">
               {Object.keys(grades).map((assessment, idx) => (
-                <Grid item xs={12} sm={6} key={idx}>
+                <Grid item xs={12} sm={6} md={4} key={idx}>
                   <Typography gutterBottom>{assessment} (Weight: {grades[assessment].weight}%)</Typography>
                   <Slider
                     value={grades[assessment].grade}
@@ -99,7 +91,7 @@ function App() {
                     margin="normal"
                     fullWidth
                     inputProps={{ step: 1, min: 0, max: 100 }}
-                    sx={{ input: { color: 'white' } }} // Optional: changes the text color
+                    sx={{ input: { color: 'white' } }}
                   />
                 </Grid>
               ))}
@@ -112,8 +104,6 @@ function App() {
       </Container>
     </ThemeProvider>
   );
-  
-  
 }
 
 export default App;
